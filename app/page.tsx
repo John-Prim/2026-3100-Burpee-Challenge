@@ -16,6 +16,16 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
+type AuditRow = {
+  occurred_at: string;
+  action: "INSERT" | "UPDATE" | "DELETE";
+  actor_name: string;
+  target_name: string;
+  entry_date: string;
+  old_burpees: number | null;
+  new_burpees: number | null;
+};
+
 type LeaderRow = {
   user_id: string;
   display_name: string;
