@@ -248,8 +248,24 @@ setAudit((aud ?? []) as any);
         </div>
       </section>
 
+      <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 16, marginTop: 16 }}>
+  <h2>Audit Log (Transparency)</h2>
+  <ol>
+    {audit.map((a, i) => (
+      <li key={i} style={{ marginBottom: 6 }}>
+        <strong>{new Date(a.occurred_at).toLocaleString()}</strong> —{" "}
+        <strong>{a.actor_name}</strong>{" "}
+        {a.action === "INSERT" ? "created" : a.action === "UPDATE" ? "updated" : "deleted"}{" "}
+        <strong>{a.target_name}</strong>’s entry for <strong>{a.entry_date}</strong>
+        {" — "}
+        <strong>{a.old_burpees ?? "—"} → {a.new_burpees ?? "—"}</strong>
+      </li>
+    ))}
+  </ol>
+</div>
+
       <p style={{ marginTop: 18, color: "#555" }}>
-        Privacy note: you can only view your own daily entries. Everyone can see totals only.
+  Transparency note: the audit log shows daily entry changes (including counts) for all contestants.
       </p>
     </main>
   );
