@@ -63,6 +63,18 @@ type LeaderRow = {
   display_name: string;
   total_burpees: number;
 };
+
+function colorForIndex(i: number) {
+  // Golden-angle hue spacing gives good separation for up to 100+ contestants
+  const hue = (i * 137.508) % 360;
+  return `hsl(${hue} 70% 50%)`;
+}
+
+function borderForIndex(i: number) {
+  const hue = (i * 137.508) % 360;
+  return `hsl(${hue} 70% 40%)`;
+}
+
 function calcStreak(rows: { entry_date: string; burpees: number }[]) {
   const map = new Map<string, number>(
     rows.map((r) => [r.entry_date, Number(r.burpees || 0)])
@@ -192,16 +204,25 @@ setAudit((aud ?? []) as any);
   }
 
   const barData = useMemo(() => {
-    return {
-      labels: leaderboard.map((r) => r.display_name),
-      datasets: [
-        {
-          label: "Total Burpees (March 2026)",
-          data: leaderboard.map((r) => r.total_burpees)
-        }
-      ]
-    };
-  }, [leaderboard]);
+  const labels = leaderboard.map((r) => r.display_name);
+  const data = leaderboard.map((r) => r.total_burpees);
+
+  const bg = leaderboard.map((_, i) => colorForIndex(i));
+  const border = leaderboard.map((_, i) => borderForIndex(i));
+
+  return {
+    labels,
+    datasets: [
+      {
+        label: "Total Burpees (March 2026)",
+        data,
+        backgroundColor: bg,
+        borderColor: border,
+        borderWidth: 1
+      }
+    ]
+  };
+}, [leaderboard]);
 
   const myPercent = Math.min(100, Math.round((myTotal / MONTH_GOAL) * 100));
 
