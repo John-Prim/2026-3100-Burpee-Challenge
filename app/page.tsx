@@ -247,23 +247,6 @@ setAudit((aud ?? []) as any);
   };
 }, [myTotal]);
 
-  const doughnutOptions = {
-  plugins: {
-    legend: {
-      position: "bottom" as const
-    },
-    tooltip: {
-      callbacks: {
-        label: (ctx: any) => {
-          const label = ctx.label || "";
-          const value = ctx.raw || 0;
-          return `${label}: ${value} burpees`;
-        }
-      }
-    }
-  }
-};
-
   if (!session) return <Login onEmailSignIn={signInWithEmail} />;
 
   return (
