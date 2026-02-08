@@ -14,6 +14,34 @@ import {
   Legend
 } from "chart.js";
 
+/* =========================
+   Center text plugin
+   ========================= */
+const centerTextPlugin = {
+  id: "centerText",
+  beforeDraw(chart: any) {
+    const { width, height } = chart;
+    const ctx = chart.ctx;
+
+    const text = chart.config.options?.plugins?.centerText?.text;
+    if (!text) return;
+
+    ctx.save();
+
+    const fontSize = Math.min(width, height) / 6;
+    ctx.font = `bold ${fontSize}px system-ui`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#111";
+
+    ctx.fillText(text, width / 2, height / 2);
+    ctx.restore();
+  }
+};
+
+/* =========================
+   Chart.js registration
+   ========================= */
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,30 +52,9 @@ ChartJS.register(
   centerTextPlugin
 );
 
-// Center text plugin for Doughnut chart
-const centerTextPlugin = {
-  id: "centerText",
-  beforeDraw(chart: any) {
-    const { width } = chart;
-    const { height } = chart;
-    const ctx = chart.ctx;
-
-    const text = chart.config.options?.plugins?.centerText?.text;
-    if (!text) return;
-
-    ctx.restore();
-
-    const fontSize = Math.min(width, height) / 6;
-    ctx.font = `bold ${fontSize}px system-ui`;
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "#111";
-
-    ctx.fillText(text, width / 2, height / 2);
-    ctx.save();
-  }
-};
-
+/* =========================
+   Types
+   ========================= */
 type AuditRow = {
   occurred_at: string;
   action: "INSERT" | "UPDATE" | "DELETE";
@@ -63,6 +70,7 @@ type LeaderRow = {
   display_name: string;
   total_burpees: number;
 };
+
 
 function colorForIndex(i: number) {
   // Golden-angle hue spacing gives good separation for up to 100+ contestants
