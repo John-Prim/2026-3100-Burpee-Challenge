@@ -14,7 +14,39 @@ import {
   Legend
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+  centerTextPlugin
+);
+
+// Center text plugin for Doughnut chart
+const centerTextPlugin = {
+  id: "centerText",
+  beforeDraw(chart: any) {
+    const { width } = chart;
+    const { height } = chart;
+    const ctx = chart.ctx;
+
+    const text = chart.config.options?.plugins?.centerText?.text;
+    if (!text) return;
+
+    ctx.restore();
+
+    const fontSize = Math.min(width, height) / 6;
+    ctx.font = `bold ${fontSize}px system-ui`;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#111";
+
+    ctx.fillText(text, width / 2, height / 2);
+    ctx.save();
+  }
+};
 
 type AuditRow = {
   occurred_at: string;
@@ -172,6 +204,27 @@ setAudit((aud ?? []) as any);
   }, [leaderboard]);
 
   const myPercent = Math.min(100, Math.round((myTotal / MONTH_GOAL) * 100));
+
+  const doughnutOptions = {
+  cutout: "70%",
+  plugins: {
+    legend: {
+      position: "bottom" as const
+    },
+    tooltip: {
+      callbacks: {
+        label: (ctx: any) => {
+          const label = ctx.label || "";
+          const value = ctx.raw || 0;
+          return `${label}: ${value} burpees`;
+        }
+      }
+    },
+    centerText: {
+      text: `${myPercent}%`
+    }
+  }
+};
 
   const doughnutData = useMemo(() => {
   return {
