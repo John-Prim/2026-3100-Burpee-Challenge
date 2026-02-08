@@ -174,16 +174,42 @@ setAudit((aud ?? []) as any);
   const myPercent = Math.min(100, Math.round((myTotal / MONTH_GOAL) * 100));
 
   const doughnutData = useMemo(() => {
-    return {
-      labels: ["Completed", "Remaining"],
-      datasets: [
-        {
-          label: "My 3100 Goal Progress",
-          data: [myTotal, Math.max(0, MONTH_GOAL - myTotal)]
+  return {
+    labels: ["Completed", "Remaining"],
+    datasets: [
+      {
+        label: "My 3100 Goal Progress",
+        data: [myTotal, Math.max(0, MONTH_GOAL - myTotal)],
+        backgroundColor: [
+          "#22c55e", // green - completed
+          "#ef4444"  // red - remaining
+        ],
+        borderColor: [
+          "#16a34a",
+          "#dc2626"
+        ],
+        borderWidth: 1
+      }
+    ]
+  };
+}, [myTotal]);
+
+  const doughnutOptions = {
+  plugins: {
+    legend: {
+      position: "bottom" as const
+    },
+    tooltip: {
+      callbacks: {
+        label: (ctx: any) => {
+          const label = ctx.label || "";
+          const value = ctx.raw || 0;
+          return `${label}: ${value} burpees`;
         }
-      ]
-    };
-  }, [myTotal]);
+      }
+    }
+  }
+};
 
   if (!session) return <Login onEmailSignIn={signInWithEmail} />;
 
@@ -225,7 +251,8 @@ setAudit((aud ?? []) as any);
           </p>
 
           <div style={{ maxWidth: 420 }}>
-            <Doughnut data={doughnutData} />
+            <Doughnut data={doughnutData} options={doughnutOptions} />
+
           </div>
         </div>
 
