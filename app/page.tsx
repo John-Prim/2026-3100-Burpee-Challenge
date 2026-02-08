@@ -21,6 +21,33 @@ type LeaderRow = {
   display_name: string;
   total_burpees: number;
 };
+function calcStreak(rows: { entry_date: string; burpees: number }[]) {
+  const map = new Map<string, number>(
+    rows.map((r) => [r.entry_date, Number(r.burpees || 0)])
+  );
+
+  const start = new Date("2026-03-01T00:00:00");
+  const end = new Date("2026-03-31T00:00:00");
+
+  let cursor = new Date();
+  if (cursor > end) cursor = new Date(end);
+  if (cursor < start) cursor = new Date(start);
+
+  const fmt = (d: Date) => d.toISOString().slice(0, 10);
+
+  let s = 0;
+  while (cursor >= start && cursor <= end) {
+    const key = fmt(cursor);
+    const val = map.get(key) ?? 0;
+    if (val > 0) s++;
+    else break;
+
+    cursor = new Date(cursor);
+    cursor.setDate(cursor.getDate() - 1);
+  }
+
+  return s;
+}
 
 export default function Home() {
   const [session, setSession] = useState<any>(null);
@@ -30,6 +57,7 @@ export default function Home() {
   const [burpees, setBurpees] = useState<number>(0);
 
   const [myTotal, setMyTotal] = useState<number>(0);
+  const [streak, setStreak] = useState<number>(0);
   const [leaderboard, setLeaderboard] = useState<LeaderRow[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -52,12 +80,13 @@ export default function Home() {
 
     const { data: myRows, error: myErr } = await supabase
       .from("burpee_entries")
-      .select("burpees")
+      .select("entry_date, burpees")
       .gte("entry_date", CONTEST_START)
       .lte("entry_date", CONTEST_END);
 
     if (myErr) console.error(myErr);
     setMyTotal((myRows ?? []).reduce((sum, r: any) => sum + (r.burpees ?? 0), 0));
+    setStreak(calcStreak((myRows ?? []) as any));
 
     const { data: lb, error: lbErr } = await supabase.rpc("leaderboard_totals", {
       start_date: CONTEST_START,
@@ -171,7 +200,8 @@ export default function Home() {
           <p style={{ marginTop: 12 }}>
             <strong>Your total:</strong> {myTotal} burpees<br />
             <strong>Goal:</strong> {MONTH_GOAL} (100/day)<br />
-            <strong>Progress:</strong> {myPercent}%
+            <strong>Progress:</strong> {myPercent}%<br />
+            <strong>Streak:</strong> {streak} day(s)
           </p>
 
           <div style={{ maxWidth: 420 }}>
