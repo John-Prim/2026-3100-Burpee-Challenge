@@ -69,6 +69,7 @@ export default function Home() {
   const [myTotal, setMyTotal] = useState<number>(0);
   const [streak, setStreak] = useState<number>(0);
   const [leaderboard, setLeaderboard] = useState<LeaderRow[]>([]);
+  const [audit, setAudit] = useState<AuditRow[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -105,6 +106,15 @@ export default function Home() {
 
     if (lbErr) console.error(lbErr);
     setLeaderboard((lb ?? []).map((r: any) => ({ ...r, total_burpees: Number(r.total_burpees) })));
+
+    const { data: aud, error: audErr } = await supabase
+  .from("burpee_audit_public")
+  .select("occurred_at, action, actor_name, target_name, entry_date, old_burpees, new_burpees")
+  .order("occurred_at", { ascending: false })
+  .limit(50);
+
+if (audErr) console.error(audErr);
+setAudit((aud ?? []) as any);
 
     setLoading(false);
   }
