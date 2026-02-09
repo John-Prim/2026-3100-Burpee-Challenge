@@ -268,7 +268,6 @@ if (audErr) console.error(audErr);
     };
   }, [myTotal]);
 
-
   if (!session) return <Login onEmailSignIn={signInWithEmail} />;
 
   return (
