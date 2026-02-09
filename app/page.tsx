@@ -396,6 +396,25 @@ setAudit((aud ?? []) as any);
   <p style={{ marginTop: 8, color: "#555" }}>
     Scan to send $50 via Venmo
   </p>
+  
+  <a
+  href="https://venmo.com/J-Prim-3908"
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{
+    display: "inline-block",
+    marginTop: 10,
+    padding: "10px 16px",
+    borderRadius: 8,
+    background: "#3d95ce",
+    color: "#fff",
+    fontWeight: 600,
+    textDecoration: "none"
+  }}
+>
+  Open Venmo
+</a>
+
 </div>
 
         <h3>Rule #6. Injury policy</h3>
