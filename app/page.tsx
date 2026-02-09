@@ -321,7 +321,6 @@ if (audErr) console.error(audErr);
           <div style={{ maxWidth: 420 }}>
             <Doughnut data={doughnutData} options={doughnutOptions} />
 
-          </div>
         </div>
 
         <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 16 }}>
@@ -340,7 +339,7 @@ if (audErr) console.error(audErr);
           <div style={{ marginTop: 16 }}>
             <Bar data={barData} />
           </div>
-        </div>
+        
       </section>
 
       {/* Contest Rules */}
