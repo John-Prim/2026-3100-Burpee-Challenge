@@ -212,69 +212,63 @@ if (audErr) console.error(audErr);
   }
 
   const barData = useMemo(() => {
-  const labels = leaderboard.map((r) => r.display_name);
-  const data = leaderboard.map((r) => r.total_burpees);
+    const labels = leaderboard.map((r) => r.display_name);
+    const data = leaderboard.map((r) => r.total_burpees);
 
-  const bg = leaderboard.map((_, i) => colorForIndex(i));
-  const border = leaderboard.map((_, i) => borderForIndex(i));
+    const bg = leaderboard.map((_, i) => colorForIndex(i));
+    const border = leaderboard.map((_, i) => borderForIndex(i));
 
-  return {
-    labels,
-    datasets: [
-      {
-        label: "Total Burpees (March 2026)",
-        data,
-        backgroundColor: bg,
-        borderColor: border,
-        borderWidth: 1
-      }
-    ]
-  };
-}, [leaderboard]);
+    return {
+      labels,
+      datasets: [
+        {
+          label: "Total Burpees (March 2026)",
+          data,
+          backgroundColor: bg,
+          borderColor: border,
+          borderWidth: 1
+        }
+      ]
+    };
+  }, [leaderboard]);
 
   const myPercent = Math.min(100, Math.round((myTotal / MONTH_GOAL) * 100));
 
   const doughnutOptions = {
-  cutout: "70%",
-  plugins: {
-    legend: {
-      position: "bottom" as const
-    },
-    tooltip: {
-      callbacks: {
-        label: (ctx: any) => {
-          const label = ctx.label || "";
-          const value = ctx.raw || 0;
-          return `${label}: ${value} burpees`;
+    cutout: "70%",
+    plugins: {
+      legend: {
+        position: "bottom" as const
+      },
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) => {
+            const label = ctx.label || "";
+            const value = ctx.raw || 0;
+            return `${label}: ${value} burpees`;
+          }
         }
+      },
+      centerText: {
+        text: `${myPercent}%`
       }
-    },
-    centerText: {
-      text: `${myPercent}%`
     }
-  }
-};
+  };
 
   const doughnutData = useMemo(() => {
-  return {
-    labels: ["Completed", "Remaining"],
-    datasets: [
-      {
-        label: "My 3100 Goal Progress",
-        data: [myTotal, Math.max(0, MONTH_GOAL - myTotal)],
-        backgroundColor: [
-          "#22c55e", // green - completed
-          "#ef4444"  // red - remaining
-        ],
-        borderColor: [
-          "#16a34a",
-          "#dc2626"
-        ],
-        borderWidth: 1
-      }
-    ]
-  };
-}, [myTotal]);
+    return {
+      labels: ["Completed", "Remaining"],
+      datasets: [
+        {
+          label: "My 3100 Goal Progress",
+          data: [myTotal, Math.max(0, MONTH_GOAL - myTotal)],
+          backgroundColor: ["#22c55e", "#ef4444"],
+          borderColor: ["#16a34a", "#dc2626"],
+          borderWidth: 1
+        }
+      ]
+    };
+  }, [myTotal]);
 
   if (!session) return <Login onEmailSignIn={signInWithEmail} />;
 
