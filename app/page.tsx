@@ -377,43 +377,48 @@ if (audErr) console.error(audErr);
           their $50 back upon completion of the <strong>3100 burpees</strong>. Those that do not finish their commitment by March 31st at 23:59 will
           forfeit their $50 to a not-for-profit organization of the founder&apos;s choosing (e.g., Chaplains, Wounded Warriors, etc.).
         </p>
+                </p>
+
         <div style={{ marginTop: 12, textAlign: "center" }}>
-        <p><strong>Venmo Buy-In</strong></p>
+          <p>
+            <strong>Venmo Buy-In</strong>
+          </p>
 
-  <img
-    src="/venmo-qr.png"
-    alt="Venmo QR Code"
-    style={{
-      width: 220,
-      height: 220,
-      display: "block",
-      margin: "0 auto",
-      borderRadius: 12
-    }}
-  />
+          <img
+            src="/venmo-qr.png"
+            alt="Venmo QR Code"
+            style={{
+              width: 220,
+              height: 220,
+              display: "block",
+              margin: "0 auto",
+              borderRadius: 12
+            }}
+          />
 
-  <p style={{ marginTop: 8, color: "#555" }}>
-    Scan to send $50 via Venmo
-  </p>
-  
-  <a
-  href="https://venmo.com/J-Prim-3908"
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{
-    display: "inline-block",
-    marginTop: 10,
-    padding: "10px 16px",
-    borderRadius: 8,
-    background: "#3d95ce",
-    color: "#fff",
-    fontWeight: 600,
-    textDecoration: "none"
-  }}
->
-  Open Venmo
-</a>
-</div>
+          <p style={{ marginTop: 8, color: "#555" }}>
+            Scan to send $50 via Venmo
+          </p>
+
+          <a
+            href="https://venmo.com/J-Prim-3908"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-block",
+              marginTop: 10,
+              padding: "10px 16px",
+              borderRadius: 8,
+              background: "#3d95ce",
+              color: "#fff",
+              fontWeight: 600,
+              textDecoration: "none"
+            }}
+          >
+            Open Venmo
+          </a>
+        </div>
+
 
         <h3>Rule #6. Injury policy</h3>
         <p>
