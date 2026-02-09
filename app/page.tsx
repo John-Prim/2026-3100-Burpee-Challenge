@@ -122,10 +122,6 @@ export default function Home() {
   const [streak, setStreak] = useState<number>(0);
   const [leaderboard, setLeaderboard] = useState<LeaderRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
-  const [venmoUsername, setVenmoUsername] = useState("");
-  const [venmoTxnId, setVenmoTxnId] = useState("");
-  const [payerNote, setPayerNote] = useState("");
-  const [isPaid, setIsPaid] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -172,19 +168,6 @@ export default function Home() {
 if (audErr) console.error(audErr);
     setAudit((aud ?? []) as any);
 
-    const { data: payRow, error: payErr } = await supabase
-      .from("payments")
-      .select("is_paid, venmo_username, venmo_transaction_id, payer_note")
-      .eq("user_id", session.user.id)
-      .maybeSingle();
-
-    if (payErr) console.error(payErr);
-
-    setIsPaid(Boolean(payRow?.is_paid));
-    setVenmoUsername(payRow?.venmo_username ?? "");
-    setVenmoTxnId(payRow?.venmo_transaction_id ?? "");
-    setPayerNote(payRow?.payer_note ?? "");
-
     setLoading(false);
 
   }
@@ -228,25 +211,7 @@ if (audErr) console.error(audErr);
     await loadData();
     alert("Saved!");
   }
-  
-  async function submitPaymentInfo() {
-    if (!session?.user) return;
-
-    const { error } = await supabase.from("payments").upsert({
-      user_id: session.user.id,
-      venmo_username: venmoUsername || null,
-      venmo_transaction_id: venmoTxnId || null,
-      payer_note: payerNote || null,
-      submitted_at: new Date().toISOString()
-    });
-
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    await loadData();
-    alert("Payment info submitted!");
+ 
   }
 
   const barData = useMemo(() => {
@@ -452,47 +417,6 @@ if (audErr) console.error(audErr);
 >
   Open Venmo
 </a>
-<div style={{ marginTop: 16, borderTop: "1px solid #eee", paddingTop: 12 }}>
-  <h3>Payment Verification</h3>
-
-  <p style={{ marginTop: 6 }}>
-    <strong>Status:</strong>{" "}
-    {isPaid ? "✅ Verified Paid" : "⏳ Not verified yet"}
-  </p>
-
-  <div style={{ display: "grid", gap: 8, maxWidth: 420 }}>
-    <label>
-      Venmo username
-      <input
-        value={venmoUsername}
-        onChange={(e) => setVenmoUsername(e.target.value)}
-        placeholder="e.g., yourname"
-      />
-    </label>
-
-    <label>
-      Venmo transaction ID (optional)
-      <input
-        value={venmoTxnId}
-        onChange={(e) => setVenmoTxnId(e.target.value)}
-        placeholder="Paste transaction ID if you have it"
-      />
-    </label>
-
-    <label>
-      Note (optional)
-      <input
-        value={payerNote}
-        onChange={(e) => setPayerNote(e.target.value)}
-        placeholder="Any note for admin"
-      />
-    </label>
-
-    <button onClick={submitPaymentInfo} disabled={loading}>
-      Submit payment info
-    </button>
-  </div>
-</div>
 </div>
 
         <h3>Rule #6. Injury policy</h3>
