@@ -378,6 +378,25 @@ setAudit((aud ?? []) as any);
           their $50 back upon completion of the <strong>3100 burpees</strong>. Those that do not finish their commitment by March 31st at 23:59 will
           forfeit their $50 to a not-for-profit organization of the founder&apos;s choosing (e.g., Chaplains, Wounded Warriors, etc.).
         </p>
+<div style={{ marginTop: 12, textAlign: "center" }}>
+  <p><strong>Venmo Buy-In</strong></p>
+
+  <img
+    src="/venmo-qr.png"
+    alt="Venmo QR Code"
+    style={{
+      width: 220,
+      height: 220,
+      display: "block",
+      margin: "0 auto",
+      borderRadius: 12
+    }}
+  />
+
+  <p style={{ marginTop: 8, color: "#555" }}>
+    Scan to send $50 via Venmo
+  </p>
+</div>
 
         <h3>Rule #6. Injury policy</h3>
         <p>
