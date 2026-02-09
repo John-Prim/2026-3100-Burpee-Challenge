@@ -208,8 +208,6 @@ if (audErr) console.error(audErr);
     await loadData();
     alert("Saved!");
   }
- 
-  }
 
   const barData = useMemo(() => {
     const labels = leaderboard.map((r) => r.display_name);
@@ -269,6 +267,7 @@ if (audErr) console.error(audErr);
       ]
     };
   }, [myTotal]);
+
 
   if (!session) return <Login onEmailSignIn={signInWithEmail} />;
 
