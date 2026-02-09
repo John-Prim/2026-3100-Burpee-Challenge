@@ -268,52 +268,78 @@ if (audErr) console.error(audErr);
     };
   }, [myTotal]);
 
-  if (!session) return <Login onEmailSignIn={signInWithEmail} />;
+  if (!session) {
+    return <Login onEmailSignIn={signInWithEmail} />;
+  }
 
   return (
     <main style={{ maxWidth: 980, margin: "0 auto", padding: 20, fontFamily: "system-ui" }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h1>March 2026 Burpee Challenge</h1>
-        <button onClick={() => supabase.auth.signOut()}>Sign out</button>
+        <button type="button" onClick={() => supabase.auth.signOut()}>
+          Sign out
+        </button>
       </header>
 
       <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        {/* LEFT CARD */}
         <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 16 }}>
           <h2>Your entry</h2>
+
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <label>
               Date
               <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
             </label>
+
             <label>
               Burpees
-              <input type="number" min={0} value={burpees} onChange={(e) => setBurpees(Number(e.target.value))} />
+              <input
+                type="number"
+                min={0}
+                value={burpees}
+                onChange={(e) => setBurpees(Number(e.target.value))}
+              />
             </label>
-            <button onClick={submitBurpees} disabled={loading}>Save</button>
+
+            <button type="button" onClick={submitBurpees} disabled={loading}>
+              Save
+            </button>
           </div>
 
           <hr style={{ margin: "16px 0" }} />
 
           <h3>Display name (leaderboard)</h3>
           <div style={{ display: "flex", gap: 8 }}>
-            <input placeholder="e.g., JP" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
-            <button onClick={saveDisplayName}>Save name</button>
+            <input
+              placeholder="e.g., JP"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+            />
+            <button type="button" onClick={saveDisplayName}>
+              Save name
+            </button>
           </div>
 
           <p style={{ marginTop: 12 }}>
-            <strong>Your total:</strong> {myTotal} burpees<br />
-            <strong>Goal:</strong> {MONTH_GOAL} (100/day)<br />
-            <strong>Progress:</strong> {myPercent}%<br />
+            <strong>Your total:</strong> {myTotal} burpees
+            <br />
+            <strong>Goal:</strong> {MONTH_GOAL} (100/day)
+            <br />
+            <strong>Progress:</strong> {myPercent}%
+            <br />
             <strong>Streak:</strong> {streak} day(s)
           </p>
 
           <div style={{ maxWidth: 420 }}>
             <Doughnut data={doughnutData} options={doughnutOptions} />
-
+          </div>
         </div>
 
+        {/* RIGHT CARD */}
         <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 16 }}>
           <h2>Leaderboard (Totals)</h2>
+
           <ol>
             {leaderboard.map((r) => {
               const pct = Math.min(100, Math.round((r.total_burpees / MONTH_GOAL) * 100));
@@ -328,7 +354,7 @@ if (audErr) console.error(audErr);
           <div style={{ marginTop: 16 }}>
             <Bar data={barData} />
           </div>
-        
+        </div>
       </section>
 
       {/* Contest Rules */}
@@ -369,12 +395,9 @@ if (audErr) console.error(audErr);
           their $50 back upon completion of the <strong>3100 burpees</strong>. Those that do not finish their commitment by March 31st at 23:59 will
           forfeit their $50 to a not-for-profit organization of the founder&apos;s choosing (e.g., Chaplains, Wounded Warriors, etc.).
         </p>
-                </p>
 
         <div style={{ marginTop: 12, textAlign: "center" }}>
-          <p>
-            <strong>Venmo Buy-In</strong>
-          </p>
+          <p><strong>Venmo Buy-In</strong></p>
 
           <img
             src="/venmo-qr.png"
@@ -388,9 +411,7 @@ if (audErr) console.error(audErr);
             }}
           />
 
-          <p style={{ marginTop: 8, color: "#555" }}>
-            Scan to send $50 via Venmo
-          </p>
+          <p style={{ marginTop: 8, color: "#555" }}>Scan to send $50 via Venmo</p>
 
           <a
             href="https://venmo.com/J-Prim-3908"
@@ -411,7 +432,6 @@ if (audErr) console.error(audErr);
           </a>
         </div>
 
-
         <h3>Rule #6. Injury policy</h3>
         <p>
           If a contestant is hurt during the contest, a <strong>$25 refund</strong> will be issued to the contestant and the remaining $25 will be donated
@@ -428,7 +448,7 @@ if (audErr) console.error(audErr);
               <strong>{new Date(a.occurred_at).toLocaleString()}</strong> —{" "}
               <strong>{a.actor_name}</strong>{" "}
               {a.action === "INSERT" ? "created" : a.action === "UPDATE" ? "updated" : "deleted"}{" "}
-              <strong>{a.target_name}</strong>’s entry for <strong>{a.entry_date}</strong>
+              <strong>{a.target_name}</strong>&apos;s entry for <strong>{a.entry_date}</strong>
               {" — "}
               <strong>{a.old_burpees ?? "—"} → {a.new_burpees ?? "—"}</strong>
             </li>
@@ -439,9 +459,9 @@ if (audErr) console.error(audErr);
       <p style={{ marginTop: 18, color: "#555" }}>
         The audit log shows daily entry changes (including counts) for all contestants.
       </p>
-
     </main>
   );
+
 }
 
 function Login({ onEmailSignIn }: { onEmailSignIn: (email: string) => Promise<void> }) {
