@@ -14,9 +14,7 @@ import {
   Legend
 } from "chart.js";
 
-/* =========================
-   Center text plugin
-   ========================= */
+// Center text plugin for Doughnut chart (must be defined BEFORE register)
 const centerTextPlugin = {
   id: "centerText",
   beforeDraw(chart: any) {
@@ -30,18 +28,16 @@ const centerTextPlugin = {
 
     const fontSize = Math.min(width, height) / 6;
     ctx.font = `bold ${fontSize}px system-ui`;
-    ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
     ctx.fillStyle = "#111";
 
     ctx.fillText(text, width / 2, height / 2);
+
     ctx.restore();
   }
 };
 
-/* =========================
-   Chart.js registration
-   ========================= */
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -51,6 +47,7 @@ ChartJS.register(
   Legend,
   centerTextPlugin
 );
+
 
 /* =========================
    Types
@@ -380,8 +377,8 @@ if (audErr) console.error(audErr);
           their $50 back upon completion of the <strong>3100 burpees</strong>. Those that do not finish their commitment by March 31st at 23:59 will
           forfeit their $50 to a not-for-profit organization of the founder&apos;s choosing (e.g., Chaplains, Wounded Warriors, etc.).
         </p>
-<div style={{ marginTop: 12, textAlign: "center" }}>
-  <p><strong>Venmo Buy-In</strong></p>
+        <div style={{ marginTop: 12, textAlign: "center" }}>
+        <p><strong>Venmo Buy-In</strong></p>
 
   <img
     src="/venmo-qr.png"
